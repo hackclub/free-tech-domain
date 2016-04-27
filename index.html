@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get a Free .TECH Domain | Hack Club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.css" />
+    <style>
+     html, body {
+       width: 100%;
+       height: 100%;
+     }
+
+     body {
+       background: linear-gradient(to bottom right, #FE4B57, #EB4E70);
+       background-repeat: no-repeat;
+       background-attachment: fixed;
+     }
+
+     .wrapper {
+       position: relative;
+       top: 50%;
+       transform: translateY(-50%);
+     }
+    </style>
+  </head>
+  <body>
+    <div class="row wrapper">
+      <div class="medium-8 large-6 medium-centered columns">
+        <div class="callout">
+          <h1>Get a Free .tech Domain</h1>
+          <p>
+            Hack Club has partnered with <a href="http://get.tech/">.tech</a> to
+            get every Hack Club member a free .tech domain.
+          </p>
+          <p>
+            Just fill out the form below to submit your request and the .tech
+            team will get you set up (they generally respond to requests within
+            the day). Shoot an email to
+            <a href="mailto:zach@hackclub.com">zach@hackclub.com</a> if you run
+            into any trouble.
+          </p>
+          <form id="domain_request_form" data-abide novalidate>
+            <div class="success callout" id="success_callout" data-closable style="display: none;">
+              <h5>Boo yah!</h5>
+              <p>Domain requested, check your email for a confirmation.</p>
+              <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div data-abide-error class="alert callout" style="display: none;">
+              <p><i class="fi-alert"></i> You're super close! Just a few errors to fix.</p>
+            </div>
+            <div class="row">
+              <div class="small-6 columns">
+                <label>Your Name
+                  <input type="text" name="name" placeholder="Prophet Orpheus" required>
+                  <span class="form-error">
+                    Required
+                  </span>
+                </label>
+              </div>
+              <div class="small-6 columns">
+                <label>Email
+                  <input type="email" name="email" placeholder="orpheus@hackclub.com" required>
+                  <span class="form-error">
+                    A valid email is required
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-12 columns">
+                <label>Domain
+                  <input type="text" name="domain" placeholder="prophetorpheus.tech" required pattern="tech_domain">
+                  <span class="form-error">
+                    A valid domain is required
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <fieldset class="large-6 columns">
+                <button class="button" type="submit">Request Domain</button>
+              </fieldset>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/what-input/2.0.1/what-input.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
+    <script>
+     $(document).foundation();
+
+     Foundation.Abide.defaults.patterns['tech_domain'] = /\.tech$/;
+
+     var form = $('#domain_request_form');
+     var nameInput = form.find('input[name="name"]');
+     var emailInput = form.find('input[name="email"]');
+     var domainInput = form.find('input[name="domain"]');
+
+     var successCallout = $('#success_callout')
+
+       var userHasEditedDomain = false;
+
+     nameInput.on('input', function () {
+       if (!userHasEditedDomain) {
+         if (this.value == '') {
+           domainInput.val('');
+         } else {
+           var domainName = this.value.toLowerCase()
+                                .replace(/[^\w]|_/g, '')
+                                .replace(/\s+/g, '') + '.tech';
+           domainInput.val(domainName);
+         }
+       }
+     });
+
+     domainInput.on('input', function () {
+       userHasEditedDomain = true;
+     });
+
+     form.on('formvalid.zf.abide', function (e) {
+       e.preventDefault();
+
+       var inputs = form.find(':input');
+
+       var values = {};
+       inputs.each(function() {
+         values[this.name] = $(this).val();
+       });
+
+       // Form to submit to .tech's request form
+       var techForm = new FormData();
+
+       // Prefilled data on the form
+       techForm.append('iphorm_id', '6');
+       techForm.append('iphorm_uid', '57212e5ea7534');
+       techForm.append('form_url', 'http://get.tech/startups/');
+       techForm.append('post_id', '6637');
+       techForm.append('post_title', 'Startups');
+       techForm.append('iphorm_ajax', '1');
+       techForm.append('iphorm_6_0', '');
+
+       // Our custom data
+       techForm.append('iphorm_6_1', values.name);
+       techForm.append('iphorm_6_2', values.email);
+       techForm.append('iphorm_6_3', 'Hack Club');
+       techForm.append('iphorm_6_4', values.domain);
+
+       $.ajax({
+         url: 'https://crossorigin.me/http://get.tech/startups/',
+         data: techForm,
+         processData: false,
+         contentType: false,
+         type: 'POST',
+         success: function (data) {
+           successCallout.show();
+           form.trigger('reset');
+         }
+       });
+     });
+
+     // Intercept form submission that's bypassing validation.
+     form.on('submit', function (e) {
+       e.preventDefault();
+     });
+    </script>
+  </body>
+</html>
