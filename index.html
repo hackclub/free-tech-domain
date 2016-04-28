@@ -111,9 +111,9 @@
      var emailInput = form.find('input[name="email"]');
      var domainInput = form.find('input[name="domain"]');
 
-     var successCallout = $('#success_callout')
+     var successCallout = $('#success_callout');
 
-       var userHasEditedDomain = false;
+     var userHasEditedDomain = false;
 
      nameInput.on('input', function () {
        if (!userHasEditedDomain) {
