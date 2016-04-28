@@ -155,12 +155,20 @@
        techForm.append('iphorm_6_4', values.domain);
 
        $.ajax({
-         url: 'https://crossorigin.me/http://get.tech/startups/',
+         url: 'http://get.tech/startups/',
          data: techForm,
          processData: false,
          contentType: false,
          type: 'POST',
+         error: function (data) {
+           // Despite throwing an error about cross origin checks failing,
+           // get.tech's server accepts the request, so we should show the user a
+           // success message.
+           successCallout.show();
+           form.trigger('reset');
+         },
          success: function (data) {
+           // Just in case the request succeeds for some reason.
            successCallout.show();
            form.trigger('reset');
          }
