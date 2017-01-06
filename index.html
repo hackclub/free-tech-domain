@@ -83,6 +83,16 @@
               </div>
             </div>
             <div class="row">
+              <div class="small-12 columns">
+                <label>Secret Code
+                  <input type="text" name="secret_code" required pattern="secret_code">
+                  <span class="form-error">
+                    A valid secret code is required
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="row">
               <fieldset class="large-6 columns">
                 <button class="button" type="submit">Request Domain</button>
               </fieldset>
@@ -105,6 +115,7 @@
      $(document).foundation();
 
      Foundation.Abide.defaults.patterns['tech_domain'] = /\.tech$/;
+     Foundation.Abide.defaults.patterns['secret_code'] = /^HACKFORLIFE$/;
 
      var form = $('#domain_request_form');
      var nameInput = form.find('input[name="name"]');
